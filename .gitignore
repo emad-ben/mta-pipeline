@@ -1,0 +1,9 @@
+venv/
+
+0-data/raw
+0-data/processed
+0-data/final
+
+__pycache__/
+*.pyc
+.DS_Store
