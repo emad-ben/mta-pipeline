@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 BASE_URL = "https://data.ny.gov/resource/{}.json"
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
+OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "0-data", "raw")
 
 DATASETS = {
     "major_incidents": "ereg-mcvp",
