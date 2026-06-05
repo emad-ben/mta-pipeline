@@ -21,6 +21,9 @@ def print_subheader(title, width=30):
     print("-" * width)
 
 def explore_dataset(name, filename):
+    """
+    Add function signature here
+    """
     path = os.path.join(DATA_DIR, filename)
     df = pd.read_csv(path)
 
@@ -63,11 +66,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-    
+  
