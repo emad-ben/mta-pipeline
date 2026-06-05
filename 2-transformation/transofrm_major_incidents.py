@@ -41,14 +41,21 @@ def transform_major_incidents():
 
     # Sort by month and line
     df = df.sort_values(["month", "line"]).reset_index(drop=True)
-    print(df.head(10))
 
     # Save
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     df.to_csv(OUTPUT_PATH, index=False)
     print(f"Rows saved {len(df)} to {OUTPUT_PATH}")
 
+    print(f"\n--- SAMPLE OUTPUT ---")
+    print(df.head(3).to_string())
 
+    print(f"\n--- UNIQUE LINES ---")
+    print(sorted(df["line"].unique()))
+
+    print(f"\n--- UNIQUE INCIDENT CATEGORIES ---")
+    print(sorted(df["incident_category"].unique()))
+    print(f"\nMajor incidents transformation complete!")
 
 if __name__ == "__main__":
     transform_major_incidents()
