@@ -21,8 +21,8 @@ def transform_service_delivered():
     # Decode day type
     df["day_type"] = df["day_type"].map(DAY_TYPE_MAP)
 
-    # Recalculate service_delivered column as a percentage
-    df["service_delivered_pct"] = (df["num_actual_trains"] / df["num_sched_trains"]).round(4)
+    # Recalculate service_delivered column as a percentage (some trains get more service than planned so we clip at %100)
+    df["service_delivered_pct"] = (df["num_actual_trains"] / df["num_sched_trains"]).round(4).clip(upper=1.0)
     df.drop(columns=["service_delivered"], inplace=True)
 
     # Standardize division and label columns
@@ -31,6 +31,8 @@ def transform_service_delivered():
 
     # Sort by month and line
     df.sort_values(["month", "line"]).reset_index(drop=True)
+
+    df["is_suspended"] = (df["service_delivered_pct"] == 0.0).astype(int)
 
     # Save
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
@@ -43,6 +45,8 @@ def transform_service_delivered():
     max_mask = df["service_delivered_pct"] == df["service_delivered_pct"].max()
     print(df[min_mask][["year", "month_number", "line", "service_delivered_pct"]].iloc[0].to_dict())
     print(df[max_mask][["year", "month_number", "line", "service_delivered_pct"]].iloc[0].to_dict())
+
+    print(df.sample(2))
 
 if __name__ == "__main__":
     transform_service_delivered()
